@@ -1,6 +1,11 @@
+import logging
+
 import pytest
 
 import incremental_median
+
+
+logging.getLogger('heap').setLevel(logging.DEBUG)
 
 
 @pytest.fixture(scope='function')

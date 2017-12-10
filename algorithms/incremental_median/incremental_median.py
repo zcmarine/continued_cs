@@ -11,12 +11,14 @@
 import heapq
 import logging
 
+LOG_FORMAT = '%(levelname)s:%(filename)s:%(funcName)s:%(lineno)s - %(message)s'
+
 # Note: if you ever want to override a module / library's logger levels
 # (e.g. you want to set this to DEBUG, you can find all loggers with:
 #     logging.Logger.manager.loggerDict
 # Then you can grab that logger and change its level:
 #     logging.getLogger('incremental_median').setLevel(logging.DEBUG)
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO, format=LOG_FORMAT)
 logger = logging.getLogger(__name__)
 
 
