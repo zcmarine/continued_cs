@@ -5,7 +5,8 @@ import pytest
 import weave_linked_list as wll
 
 
-logging.getLogger('weave_linked_list').setLevel(logging.DEBUG)
+logger = logging.getLogger('weave_linked_list')
+logger.setLevel(logging.DEBUG)
 
 
 def generate_linked_list(l):
@@ -24,44 +25,52 @@ def linked_list(request):
     return head
 
 
+@pytest.mark.parametrize('mutate', [True, False])
 @generate_linked_list([0, 1, 2, 3, 4, 5])
-def test_weave_even(linked_list):
-    woven = wll.weave(linked_list)
+def test_weave_even(linked_list, mutate):
+    woven = wll.weave(linked_list, mutate)
     current = woven
     for data in [0, 3, 1, 4, 2, 5]:
+        logger.debug(current.data)
         assert current.data == data
         current = current.next
 
     assert current is None
 
 
+@pytest.mark.parametrize('mutate', [True, False])
 @generate_linked_list([0, 1, 2, 3, 4])
-def test_weave_odd(linked_list):
-    woven = wll.weave(linked_list)
+def test_weave_odd(linked_list, mutate):
+    woven = wll.weave(linked_list, mutate)
     current = woven
     for data in [0, 3, 1, 4, 2]:
+        logger.debug(current.data)
         assert current.data == data
         current = current.next
 
     assert current is None
 
 
+@pytest.mark.parametrize('mutate', [True, False])
 @generate_linked_list([7, 3])
-def test_weave_two_elements(linked_list):
-    woven = wll.weave(linked_list)
+def test_weave_two_elements(linked_list, mutate):
+    woven = wll.weave(linked_list, mutate)
     current = woven
     for data in [7, 3]:
+        logger.debug(current.data)
         assert current.data == data
         current = current.next
 
     assert current is None
 
 
+@pytest.mark.parametrize('mutate', [True, False])
 @generate_linked_list([3])
-def test_weave_one_element(linked_list):
-    woven = wll.weave(linked_list)
+def test_weave_one_element(linked_list, mutate):
+    woven = wll.weave(linked_list, mutate)
     current = woven
     for data in [3]:
+        logger.debug(current.data)
         assert current.data == data
         current = current.next
 
