@@ -15,11 +15,14 @@ class Node(object):
         return '< Node / data: {} >'.format(self.data)
 
 
-def weave(head):
-    # If the linked list is only one element long we can't weave it
-    if not head.next:
-        return head
+def get_midpoint_pointer(head):
+    '''
+    Return a pointer for the midpoint of the linked list. Also return a boolean, is_odd_length,
+    that tells if the linked list is of odd or even length
 
+    If the linked list is of odd length then the number of nodes from the head to the midpoint
+    will be 1 greater than the number of nodes from the midpoint to the end of the linked list
+    '''
     ptr1 = head
     ptr2 = head
 
@@ -38,10 +41,22 @@ def weave(head):
     ptr1 = head
     ptr2 = ptr2.next
 
-    # Now advance each pointer and add the elements into a new linked list
-    new_head = Node(data=ptr1.data)
-    ptr1 = ptr1.next
-    ptr2, current_node = append_node(ptr2, new_head)
+    return ptr2, is_odd_length
+
+
+def append_node(pointer, current_node):
+    next_node = Node(data=pointer.data)
+    current_node.next = next_node
+    current_node = next_node
+    pointer = pointer.next
+    return pointer, current_node
+
+
+def create_woven_linked_list(head, midpoint, is_odd_length):
+    ''' Create a fully new woven linked list. This does not mutate the original linked list. '''
+    new_head = Node(data=head.data)
+    ptr1 = head.next
+    ptr2, current_node = append_node(midpoint, new_head)
 
     while ptr2 is not None:
         ptr1, current_node = append_node(ptr1, current_node)
@@ -55,9 +70,10 @@ def weave(head):
     return new_head
 
 
-def append_node(pointer, current_node):
-    next_node = Node(data=pointer.data)
-    current_node.next = next_node
-    current_node = next_node
-    pointer = pointer.next
-    return pointer, current_node
+def weave(head):
+    # If the linked list is only one element long we can't weave it
+    if not head.next:
+        return head
+
+    midpoint, is_odd_length = get_midpoint_pointer(head)
+    return create_woven_linked_list(head, midpoint, is_odd_length)
