@@ -71,36 +71,34 @@ def create_woven_linked_list(head, midpoint, is_odd_length):
 
 
 def mutate_and_weave(head, midpoint, is_odd_length):
-    first_half_node = head
-    second_half_node = midpoint
+    n_h1 = head
+    n_h2 = midpoint
     log_msg = "Link: Next node for {} half item {} is now {}"
 
     terminated = False
     while not terminated:
         # Figure out what would be next
-        first_half_next_node = first_half_node.next
-        second_half_next_node = second_half_node.next
-        if second_half_node.next is None:
-            logger.debug('Is None! Thank god! second_half_node: {}'.format(second_half_node))
+        n_h1_next = n_h1.next
+        n_h2_next = n_h2.next
 
         # Insert the second half's node between the current first half's node and its next node
-        first_half_node.next = second_half_node
-        logger.debug(log_msg.format('first', first_half_node.data, second_half_node.data))
+        n_h1.next = n_h2
+        logger.debug(log_msg.format('1st', n_h1.data, n_h2.data))
 
-        if second_half_next_node:
+        if n_h2_next:
             # Add the second half's current node and prepare for the next iteration
-            second_half_node.next = first_half_next_node
-            logger.debug(log_msg.format('second', second_half_node.data, first_half_next_node.data))
+            n_h2.next = n_h1_next
+            logger.debug(log_msg.format('2nd', n_h2.data, n_h1_next.data))
 
-            first_half_node = first_half_next_node
-            second_half_node = second_half_next_node
+            n_h1 = n_h1_next
+            n_h2 = n_h2_next
         else:
             if is_odd_length:
                 # Add the last node from the first half and set its next to None, then we're done
-                second_half_node.next = first_half_next_node
-                logger.debug(log_msg.format('second', second_half_node.data, first_half_next_node.data))
-                first_half_next_node.next = None
-                logger.debug(log_msg.format('first', first_half_next_node.data, None))
+                n_h2.next = n_h1_next
+                logger.debug(log_msg.format('2nd', n_h2.data, n_h1_next.data))
+                n_h1_next.next = None
+                logger.debug(log_msg.format('1st', n_h1_next.data, None))
                 terminated = True
             else:
                 # We're done!
