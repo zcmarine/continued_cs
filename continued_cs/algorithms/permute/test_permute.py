@@ -1,9 +1,9 @@
 import logging
 
-from permute import permute
+from continued_cs.algorithms.permute import permute
 
 
-logger = logging.getLogger('permute')
+logger = logging.getLogger('continued_cs.algorithms.permute')
 logger.setLevel(logging.DEBUG)
 
 

@@ -37,7 +37,7 @@ def create_binary_tree_helper(array, idx, parent):
         return None
 
     left_child_idx, right_child_idx = get_children(idx)
-    node = Node(name=idx, parent=parent)
+    node = Node(name=array[idx], parent=parent)
     node.left_child = create_binary_tree_helper(array, idx=left_child_idx, parent=idx)
     node.right_child = create_binary_tree_helper(array, idx=right_child_idx, parent=idx)
     return node

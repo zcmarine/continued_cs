@@ -2,10 +2,10 @@ import logging
 
 import pytest
 
-import incremental_median
+from continued_cs.algorithms import incremental_median
 
 
-logging.getLogger('heap').setLevel(logging.DEBUG)
+logging.getLogger('continued_cs.algorithms.incremental_median').setLevel(logging.DEBUG)
 
 
 @pytest.fixture(scope='function')

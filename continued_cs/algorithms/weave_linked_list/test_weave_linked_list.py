@@ -2,10 +2,10 @@ import logging
 
 import pytest
 
-import weave_linked_list as wll
+from continued_cs.algorithms import weave_linked_list as wll
 
 
-logger = logging.getLogger('weave_linked_list')
+logger = logging.getLogger('continued_cs.algorithms.weave_linked_list')
 logger.setLevel(logging.DEBUG)
 
 

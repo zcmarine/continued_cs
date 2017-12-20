@@ -2,10 +2,10 @@ import logging
 
 import pytest
 
-import reverse_linked_list as rll
+from continued_cs.algorithms import reverse_linked_list as rll
 
 
-logger = logging.getLogger('reverse_linked_list')
+logger = logging.getLogger('continued_cs.algorithms.reverse_linked_list')
 logger.setLevel(logging.DEBUG)
 
 SINGLE_ELEMENT_LIST = (7, )

@@ -2,10 +2,10 @@ import logging
 
 import pytest
 
-import heap
+from continued_cs.data_structures import heap
 
 
-logging.getLogger('heap').setLevel(logging.DEBUG)
+logging.getLogger('continued_cs.data_structures.heap').setLevel(logging.DEBUG)
 
 
 @pytest.fixture

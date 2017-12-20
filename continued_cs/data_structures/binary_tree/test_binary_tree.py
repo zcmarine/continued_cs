@@ -1,6 +1,6 @@
 import pytest
 
-import binary_tree as bt
+from continued_cs.data_structures import binary_tree as bt
 
 
 @pytest.mark.parametrize('idx, expected', [
@@ -29,11 +29,11 @@ def test_binary_tree_one_element():
 
 
 def test_binary_tree_four_elements():
-    actual = bt.create_binary_tree([0, 1, 2, 3])
-    assert actual.name == 0
-    assert actual.left_child.name == 1
-    assert actual.right_child.name == 2
-    assert actual.left_child.left_child.name == 3
+    actual = bt.create_binary_tree([3, 2, 7, 4])
+    assert actual.name == 3
+    assert actual.left_child.name == 2
+    assert actual.right_child.name == 7
+    assert actual.left_child.left_child.name == 4
     assert actual.left_child.right_child is None
     assert actual.right_child.left_child is None
     assert actual.right_child.right_child is None
