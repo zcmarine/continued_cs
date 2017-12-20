@@ -1,1 +1,1 @@
-CS Question: Create all permutations of an array.
+Create all permutations of an array.

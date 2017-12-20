@@ -1,1 +1,1 @@
-CS Question: Reverse a linked list.
+Reverse a linked list.

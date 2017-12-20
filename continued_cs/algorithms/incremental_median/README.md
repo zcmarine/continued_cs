@@ -1,1 +1,1 @@
-CS Question: How would you track the median in an infinitely long stream of integers?
+How would you track the median in an infinitely long stream of integers?
