@@ -6,5 +6,6 @@ from . import (
     island_count,
     permute,
     reverse_linked_list,
+    staircase_jumping,
     weave_linked_list,
 )
