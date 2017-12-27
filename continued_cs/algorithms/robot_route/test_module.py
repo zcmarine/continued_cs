@@ -9,6 +9,9 @@ logger = logging.getLogger('continued_cs.algorithms.robot_route')
 logger.setLevel(logging.DEBUG)
 
 
+run_all_functions = pytest.mark.parametrize('fn', (rr.find_route, rr.find_route_alt))
+
+
 def test_create_empty_matrix():
     empty_matrix = rr.KnownRoutes(rows=2, cols=4)
     assert len(empty_matrix.matrix) == 2
@@ -29,26 +32,26 @@ def test_get_adjoining_cells(cell, rows, cols, expected):
         assert actual_cell.col == expected_cell.col
 
 
-@pytest.mark.parametrize('fn', (rr.find_route, rr.find_route_alt))
+@run_all_functions
 def test_find_route_1x1(fn):
     matrix = [[0]]
     assert fn(matrix) == [(0, 0)]
 
 
-@pytest.mark.parametrize('fn', (rr.find_route, rr.find_route_alt))
+@run_all_functions
 def test_find_route_1x2(fn):
     matrix = [[0, 0]]
     assert fn(matrix) == [(0, 0), (0, 1)]
 
 
-@pytest.mark.parametrize('fn', (rr.find_route, rr.find_route_alt))
+@run_all_functions
 def test_find_route_2x1(fn):
     matrix = [[0],
               [0]]
     assert fn(matrix) == [(0, 0), (1, 0)]
 
 
-@pytest.mark.parametrize('fn', (rr.find_route, rr.find_route_alt))
+@run_all_functions
 def test_find_route_3x3(fn):
     matrix = [[0, 1, 0],
               [0, 0, 0],
@@ -56,7 +59,7 @@ def test_find_route_3x3(fn):
     assert fn(matrix) == [(0, 0), (1, 0), (1, 1), (1, 2), (2, 2)]
 
 
-@pytest.mark.parametrize('fn', (rr.find_route, rr.find_route_alt))
+@run_all_functions
 def test_find_route_bigger(fn):
     matrix = [[0, 0, 1, 1, 1, 1, 1],
               [1, 0, 0, 0, 1, 1, 1],
@@ -72,7 +75,7 @@ def test_find_route_bigger(fn):
     assert fn(matrix) == expected
 
 
-@pytest.mark.parametrize('fn', (rr.find_route, rr.find_route_alt))
+@run_all_functions
 def test_find_route_even_bigger(fn):
     matrix = [
         [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1],
