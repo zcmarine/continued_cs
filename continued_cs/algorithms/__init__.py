@@ -2,6 +2,7 @@ from . import (
     binary_tree_sums,
     bit_manipulation,
     build_subsets,
+    count_e_hexes,
     egg_drop,
     incremental_median,
     is_subtree,
