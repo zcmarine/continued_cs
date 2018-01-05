@@ -10,6 +10,7 @@ from . import (
     island_count,
     multiply,
     permute,
+    regex_engine,
     reverse_linked_list,
     staircase_jumping,
     weave_linked_list,
