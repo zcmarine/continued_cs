@@ -4,28 +4,27 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def generate_fibonacci_numbers(n):
-    """ Create the first n+1 fibonacci numbers (we do n+1 so we can
-    assert that n is a fibonacci number) """
-    if n <= 0:
-        raise ValueError('n must be greater than 0')
+def build_fibonacci_numbers(num):
+    """ Create the fibonacci numbers up to and including a given fibonacci number """
+    if num <= 0:
+        raise ValueError('num must be greater than 0')
 
-    if n == 1:
+    if num == 1:
         return [1]
 
     output = [1, 1]
-    # We only decrement by 1 even though we already have
-    # 2 numbers so that we end up with n+1 numbers
-    n -= 1
-    while n != 0:
-        output.append(output[-1] + output[-2])
-        n -= 1
+    while num > output[-1]:
+        next_num = output[-1] + output[-2]
+        output.append(next_num)
+
+    if num != output[-1]:
+        raise ValueError('input num "{}" is not a fibonacci number'.format(num))
 
     return output
 
 
-def get_fibonacci_list(num):
-    """ Given the input fibonacci num, generate all lists of fibonacci numbers that sum to this
+def build_fibonacci_lists(num):
+    """ Given the input fibonacci num, build all lists of fibonacci numbers that sum to this
     fibonacci number. For example, given the input 3 (which is a fibonacci number), the output
     should be:
         [
@@ -34,34 +33,50 @@ def get_fibonacci_list(num):
             [3],
         ]
     """
-    fibonacci_numbers = generate_fibonacci_numbers(num)
-    if num not in fibonacci_numbers:
-        raise ValueError('num is not a fibonacci number')
+    # We reverse the fibonacci numbers so we can peel them off from largest to smallest
+    # We also make the fibonacci numbers a tuple so they are immutable just to be safe
+    fibonacci_numbers = build_fibonacci_numbers(num)
+    fibs = tuple(sorted(fibonacci_numbers, reverse=True))
+    logger.debug('fibs: {}'.format(fibs))
 
-    ways_prev = [[1]]
-    results = [[1]]
+    memo = {0: []}
+    build_fibonacci_lists_helper(num, 0, [], fibs, memo)
+    return memo[(num, 0)]
 
-    # Start at the 3rd fibonacci number as we already have results for [1, 1]
-    for fibnum in fibonacci_numbers[2:]:
-        # We may have generated more fibonacci numbers than we
-        # need so we need to stop processing
-        if fibnum > num:
-            break
 
-        ways_two_prev = ways_prev
-        ways_prev = results
+def build_fibonacci_lists_helper(num, idx, curr_list, fibs, memo):
+    log_prefix = '{}({}, {}): '.format('  '*idx, num, idx)
+    if (num, idx) in memo:
+        results = memo[(num, idx)]
+        logger.debug('{}Using memo entry {}'.format(log_prefix, results))
+
+    curr_fib = fibs[idx]
+
+    if num == 0:
+        logger.debug('{}num = 0 for curr_fib = {}; returning curr_list = {}'.format(log_prefix,
+                                                                                    curr_fib,
+                                                                                    curr_list))
+        results = [curr_list]
+    elif curr_fib == 1:
+        # We only have 1s left so pad the result with them
+        results = [curr_list + [1]*num]
+        logger.debug('{}curr_fib == 1 for num = {}; returning 1-padded list {}'.format(log_prefix,
+                                                                                       num,
+                                                                                       results))
+    else:
+        logger.debug('{}Calculating results'.format(log_prefix))
+        div_count = num // curr_fib
         results = []
+        for multiple in range(div_count+1):
+            logger.debug('{}Recursing for multiple = {}'.format(log_prefix, multiple))
+            subresults = build_fibonacci_lists_helper(
+                num - multiple*curr_fib,
+                idx+1,
+                curr_list + multiple*[curr_fib],
+                fibs,
+                memo
+            )
+            results += subresults
 
-        logger.debug('fibnum: {}'.format(fibnum))
-        logger.debug('ways_prev: {}'.format(ways_prev))
-        logger.debug('ways_two_prev: {}\n'.format(ways_two_prev))
-
-        # Do a cartesian product of the ways to create the two previous fibonacci numbers
-        for prev_list in ways_prev:
-            for two_prev_list in ways_two_prev:
-                results.append(prev_list + two_prev_list)
-
-        # We can create this fibonacci number from itself so add it to our list
-        results.append([fibnum])
-
+    memo[(num, idx)] = results
     return results
